@@ -2,3 +2,13 @@
   min-height: 100vh;
   overflow: hidden;
 }
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+}

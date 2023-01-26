@@ -3,7 +3,16 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <RouterView />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  background-image: url(./assets/bg.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

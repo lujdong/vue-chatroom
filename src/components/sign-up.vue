@@ -10,7 +10,7 @@
       <el-input placeholder="请再次输入密码" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" class="login-btn">
+      <el-button type="primary" class="login-btn" @click="signInAction">
         {{ isSignUp ? "注册" : "登录" }}
       </el-button>
     </el-form-item>
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 const props = withDefaults(
   defineProps<{
@@ -30,6 +31,11 @@ const props = withDefaults(
 );
 
 const isSignUp = computed(() => props.type === "1");
+
+const router = useRouter();
+const signInAction = () => {
+  router.replace("/chat");
+};
 </script>
 
 <style scoped>
