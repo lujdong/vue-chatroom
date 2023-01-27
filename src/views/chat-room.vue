@@ -1,13 +1,23 @@
 <template>
   <div class="room-container">
-    <room-list></room-list>
-    <chat-window class="chat-window"></chat-window>
+    <room-list @change="onRoomChange"></room-list>
+    <chat-window v-if="roomFlag" class="chat-window"></chat-window>
+    <empty-panel v-else></empty-panel>
   </div>
 </template>
 
 <script setup lang="ts">
 import roomList from "./room-list.vue";
 import chatWindow from "./chat-window.vue";
+import emptyPanel from "@/components/empty-panel.vue";
+import { ref } from "vue";
+
+const roomFlag = ref(false);
+
+const onRoomChange = (room: any) => {
+  console.log(room);
+  roomFlag.value = true;
+};
 </script>
 
 <style scoped lang="scss">

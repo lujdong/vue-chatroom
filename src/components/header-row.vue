@@ -18,13 +18,23 @@
           </el-icon>
         </router-link>
       </div>
-      <user-avatar class="avatar-wrap"></user-avatar>
+      <div class="right-bar">
+        <el-button link type="warning" @click="handleLogout"
+          >退出登录</el-button
+        >
+        <user-avatar class="avatar-wrap"></user-avatar>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import userAvatar from "./user-avatar.vue";
+const router = useRouter();
+const handleLogout = () => {
+  router.replace("/");
+};
 </script>
 
 <style scoped lang="scss">
@@ -34,9 +44,14 @@ import userAvatar from "./user-avatar.vue";
   justify-content: center;
 }
 
-.avatar-wrap {
+.right-bar {
   position: absolute;
   right: 32px;
+  display: flex;
+  align-items: center;
+  .avatar-wrap {
+    margin-left: 32px;
+  }
 }
 .sidebar {
   height: 60px;

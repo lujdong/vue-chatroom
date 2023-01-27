@@ -46,12 +46,17 @@ const data = reactive({
   ],
 });
 
+const emits = defineEmits<{
+  (event: "change", room: any): void;
+}>();
+
 const selectRoomItem = (item: any) => {
   console.log("item: ", item);
   data.roomList.forEach((i) => {
     i.selected = i.id == item.id;
   });
   console.log("selectRoomItem");
+  emits("change", item);
 };
 </script>
 
@@ -59,6 +64,7 @@ const selectRoomItem = (item: any) => {
 .list-container {
   width: 260px;
   height: 100%;
+  flex-shrink: 0;
   border-right: 1px solid #eee;
 }
 .active {

@@ -1,7 +1,7 @@
 <template>
   <div class="room-content">
     <div class="room-header">
-      <div class="title">无话不谈</div>
+      <div class="title">无话不谈聊天室（3）</div>
       <el-icon class="icon">
         <MoreFilled />
       </el-icon>
