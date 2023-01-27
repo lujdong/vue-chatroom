@@ -19,6 +19,16 @@ const router = createRouter({
           name: "chat-room",
           component: () => import("@/views/chat-room.vue"),
         },
+        {
+          path: "group-friends",
+          name: "group-friends",
+          component: () => import("@/views/friends-group.vue"),
+        },
+        {
+          path: "user-settings",
+          name: "user-settings",
+          component: () => import("@/views/user-settings.vue"),
+        },
       ],
     },
   ],

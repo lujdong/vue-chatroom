@@ -1,8 +1,5 @@
 <template>
   <div class="room-content">
-    <!-- <div class="chat-content">
-      <el-empty description=" "></el-empty>
-    </div> -->
     <div class="room-header">
       <div class="title">无话不谈</div>
       <el-icon class="icon">
@@ -42,12 +39,6 @@ import chatRecord from "./chat-record.vue";
 </script>
 
 <style scoped lang="scss">
-.chat-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .room-content {
   display: flex;
   flex-direction: column;
