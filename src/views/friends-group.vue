@@ -2,7 +2,9 @@
   <div class="group-panel">
     <div class="side-column">
       <div class="friend-action">
-        <el-button type="primary" :icon="Plus">添加好友</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAddFriend"
+          >添加好友</el-button
+        >
       </div>
       <div class="group-row">
         <el-icon> <Plus /> </el-icon>新建分组
@@ -43,23 +45,27 @@
           <el-divider />
           <div class="info-box">
             <div class="info-line">
-              <span>备注</span>
+              <span class="block-text">备注</span>
               <span class="sub-text">点击添加备注</span>
             </div>
             <div class="info-line">
-              <span>性别</span>
+              <span class="block-text">手机号</span>
+              <span class="sub-text">18888888888</span>
+            </div>
+            <div class="info-line">
+              <span class="block-text">性别</span>
               <span class="sub-text">保密</span>
             </div>
             <div class="info-line">
-              <span>生日</span>
+              <span class="block-text">生日</span>
               <span class="sub-text">9/26</span>
             </div>
             <div class="info-line">
-              <span>年龄</span>
+              <span class="block-text">年龄</span>
               <span class="sub-text">26</span>
             </div>
             <div class="info-line">
-              <span>分组</span>
+              <span class="block-text">分组</span>
               <span class="sub-text">我的好友</span>
             </div>
           </div>
@@ -76,12 +82,14 @@
       </div>
       <empty-panel v-else></empty-panel>
     </div>
+    <add-friend :show="showAddFriend" @close="closeFriendsModal"></add-friend>
   </div>
 </template>
 
 <script setup lang="ts">
 import emptyPanel from "@/components/empty-panel.vue";
 import userAvatar from "@/components/user-avatar.vue";
+import addFriend from "@/components/add-friend.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { ref } from "vue";
 
@@ -114,6 +122,14 @@ const onSelectFriend = (friend: any) => {
       friendItem.selected = friendItem.id === friend.id;
     });
   });
+};
+
+const showAddFriend = ref(false);
+const handleAddFriend = () => {
+  showAddFriend.value = true;
+};
+const closeFriendsModal = () => {
+  showAddFriend.value = false;
 };
 </script>
 
@@ -184,6 +200,11 @@ const onSelectFriend = (friend: any) => {
     .info-box {
       .info-line {
         line-height: 2;
+        .block-text {
+          display: inline-block;
+          width: 50px;
+          text-align: right;
+        }
         .sub-text {
           color: #999;
           margin-left: 8px;

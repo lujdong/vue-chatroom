@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import roomList from "./room-list.vue";
-import chatWindow from "./chat-window.vue";
+import roomList from "../components/room-list.vue";
+import chatWindow from "../components/chat-window.vue";
 import emptyPanel from "@/components/empty-panel.vue";
 import { ref } from "vue";
 

@@ -1,7 +1,11 @@
 <template>
   <div class="user-container">
     <div class="user-avatar">
-      <el-image style="width: 180px; height: 180px" />
+      <el-image
+        class="img-wrap"
+        style="width: 180px; height: 180px"
+        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      />
       <el-upload
         ref="upload"
         class="upload-btn"
@@ -35,6 +39,15 @@
             </el-icon> -->
           </div>
         </el-form-item>
+        <el-form-item label="手机号：">
+          <div class="info-row">
+            <el-input v-if="editFlag" v-model="userForm.phone"></el-input>
+            <span v-else class="info-text">{{ userForm.phone }}</span>
+            <!-- <el-icon class="edit-icon">
+              <EditPen />
+            </el-icon> -->
+          </div>
+        </el-form-item>
         <el-form-item label="性别：">
           <div class="info-row">
             <el-select v-if="editFlag" v-model="userForm.sex">
@@ -63,6 +76,17 @@
               v-model="userForm.birthday"
             />
             <span v-else class="info-text">9/26</span>
+          </div>
+        </el-form-item>
+        <el-form-item label="密码：">
+          <div class="info-row">
+            <el-input
+              v-if="editFlag"
+              v-model="userForm.password"
+              type="password"
+              placeholder="请输入新密码"
+            ></el-input>
+            <span v-else class="info-text">******</span>
           </div>
         </el-form-item>
         <el-form-item>
@@ -113,7 +137,9 @@ const userForm = ref({
   nickname: "小东",
   sex: 0,
   age: 26,
+  phone: 18514567897,
   birthday: "1998/9/26",
+  password: "",
 });
 </script>
 
@@ -128,6 +154,9 @@ const userForm = ref({
     align-items: flex-end;
     .upload-btn {
       margin-top: 12px;
+    }
+    .img-wrap {
+      border: 1px solid #efefef;
     }
   }
   .info-column {

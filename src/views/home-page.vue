@@ -2,12 +2,17 @@
   <div class="login-container">
     <el-card class="login-card">
       <h2 class="title">web 聊天室</h2>
-      <el-tabs type="border-card" class="tabs-container">
+      <el-tabs
+        type="border-card"
+        class="tabs-container"
+        v-model="currentTab"
+        @tab-click="onTableChange"
+      >
         <el-tab-pane label="登录">
-          <signup type="0" />
+          <signup :type="currentTab" @success="loginSuccess" />
         </el-tab-pane>
         <el-tab-pane label="注册">
-          <signup type="1" />
+          <signup :type="currentTab" @success="registerSuccess" />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -16,6 +21,31 @@
 
 <script setup lang="ts">
 import signup from "@/components/sign-up.vue";
+import { ElMessage } from "element-plus";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+/**
+ * 1：注册
+ * 0：登录
+ */
+export type SignType = "0" | "1";
+
+const currentTab = ref<SignType>("0");
+
+const onTableChange = () => {
+  currentTab.value = currentTab.value === "0" ? "1" : "0";
+};
+
+const registerSuccess = () => {
+  ElMessage.success("注册成功");
+  currentTab.value = "0";
+};
+
+const router = useRouter();
+const loginSuccess = () => {
+  router.replace("/chat");
+};
 </script>
 
 <style lang="scss" scoped>
