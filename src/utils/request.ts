@@ -18,7 +18,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    if (response.data.code === 0) {
+    if (response.data.code === 200) {
       return response.data;
     }
     ElMessage.error({ message: response.data.message, offset: 600 });

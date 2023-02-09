@@ -12,7 +12,11 @@
       <el-input placeholder="请输入用户名" v-model="userForm.username" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input placeholder="请输入密码" v-model="userForm.password" />
+      <el-input
+        placeholder="请输入密码"
+        v-model="userForm.password"
+        @keyup.enter="signInAction(ruleFormRef)"
+      />
     </el-form-item>
     <el-form-item v-if="isSignUp" label="确认密码" prop="rePassword">
       <el-input placeholder="请再次输入密码" v-model="userForm.rePassword" />
@@ -32,6 +36,7 @@
 <script setup lang="ts">
 import { userRegister, userLogin } from "@/api";
 import type { UserRegisterParams } from "@/api/types";
+import type { UserBaseInfo } from "@/types/response";
 import type { SignType } from "@/views/home-page.vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { computed, ref, watch } from "vue";
@@ -130,7 +135,7 @@ const signInAction = (formRef: FormInstance | undefined) => {
 };
 
 const emits = defineEmits<{
-  (event: "success"): void;
+  (event: "success", data?: UserBaseInfo): void;
 }>();
 
 const signUserAction = async () => {
@@ -140,9 +145,8 @@ const signUserAction = async () => {
     emits("success");
   }
   if (props.type === "0") {
-    const data = await userLogin(userForm.value);
-    console.log("data: ", data);
-    emits("success");
+    const { data } = await userLogin<UserBaseInfo>(userForm.value);
+    emits("success", data);
   }
 };
 

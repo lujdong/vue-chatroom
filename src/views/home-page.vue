@@ -24,7 +24,8 @@ import signup from "@/components/sign-up.vue";
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
+import type { UserBaseInfo } from "@/types/response";
+import { useUserStore } from "@/store/user";
 /**
  * 1：注册
  * 0：登录
@@ -43,8 +44,18 @@ const registerSuccess = () => {
 };
 
 const router = useRouter();
-const loginSuccess = () => {
-  router.replace("/chat");
+
+const userStore = useUserStore();
+const loginSuccess = (data?: UserBaseInfo) => {
+  if (data) {
+    userStore.user = data;
+  }
+  router.replace({
+    path: "/chat",
+    query: {
+      id: data?.id,
+    },
+  });
 };
 </script>
 

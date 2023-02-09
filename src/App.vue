@@ -7,7 +7,6 @@ import { RouterView } from "vue-router";
     <RouterView />
   </div>
 </template>
-
 <style scoped>
 .container {
   background-image: url(./assets/bg.png);

@@ -1,19 +1,18 @@
 import type { ResponseDataType } from "./../types/response";
-import type { AxiosResponse } from "axios";
-import type { UserRegisterParams } from "./types";
+import type { UserLoginParams, UserRegisterParams } from "./types";
 import request from "@/utils/request";
 
-type ResponseType = AxiosResponse<ResponseDataType>["data"];
-
-export const userRegister = (data: UserRegisterParams): ResponseType => {
+export const userRegister = (data: UserRegisterParams) => {
   return request<ResponseDataType>({
     url: "/user/register",
     data,
   });
 };
 
-export const userLogin = (data: UserLoginParams): ResponseType => {
-  return request<ResponseDataType>({
+export const userLogin = <T>(
+  data: UserLoginParams
+): Promise<ResponseDataType<T>> => {
+  return request<ResponseDataType<T>>({
     url: "/user/login",
     data,
   });

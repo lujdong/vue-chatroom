@@ -11,11 +11,15 @@ import roomList from "../components/room-list.vue";
 import chatWindow from "../components/chat-window.vue";
 import emptyPanel from "@/components/empty-panel.vue";
 import { ref } from "vue";
+import { useUserStore } from "@/store/user";
 
 const roomFlag = ref(false);
+const userStore = useUserStore();
 
 const onRoomChange = (room: any) => {
   console.log(room);
+  console.log(userStore.$state);
+
   roomFlag.value = true;
 };
 </script>
