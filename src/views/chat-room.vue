@@ -1,7 +1,7 @@
 <template>
   <div class="room-container">
     <room-list @change="onRoomChange"></room-list>
-    <chat-window v-if="roomFlag" class="chat-window"></chat-window>
+    <chat-window v-if="activeRoom" class="chat-window"></chat-window>
     <empty-panel v-else></empty-panel>
   </div>
 </template>
@@ -12,15 +12,20 @@ import chatWindow from "../components/chat-window.vue";
 import emptyPanel from "@/components/empty-panel.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/store/user";
+import { useSocketStore } from "@/store/socket";
 
-const roomFlag = ref(false);
+const activeRoom = ref(false);
+
 const userStore = useUserStore();
+const socketStore = useSocketStore();
+
+socketStore.connectSocket();
 
 const onRoomChange = (room: any) => {
   console.log(room);
   console.log(userStore.$state);
 
-  roomFlag.value = true;
+  activeRoom.value = true;
 };
 </script>
 

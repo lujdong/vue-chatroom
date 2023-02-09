@@ -5,7 +5,16 @@ export interface SocketState {
   socket: Socket | null;
 }
 
-export const useSocketStore = defineStore<"socket", SocketState>("socket", {
+export interface SocketActions {
+  connectSocket(): void;
+}
+
+export const useSocketStore = defineStore<
+  "socket",
+  SocketState,
+  {},
+  SocketActions
+>("socket", {
   state: () => {
     return {
       socket: null,
