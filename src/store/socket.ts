@@ -1,3 +1,4 @@
+import { useUserStore } from "./user";
 import { io, Socket } from "socket.io-client";
 import { defineStore } from "pinia";
 
@@ -24,15 +25,24 @@ export const useSocketStore = defineStore<
   getters: {},
 
   actions: {
+    // 初始化socket
     async connectSocket() {
-      const socketInstance = io("/socket");
-      socketInstance.on("connect", async () => {
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", async () => {
         console.log("连接成功");
 
-        // 获取聊天室所需所有信息
-        socketInstance.emit("chatData", { username: "dong" });
+        const user = useUserStore();
 
-        this.socket = socketInstance;
+        console.log("user.user: ", user.user);
+        socket.emit("joinChatroom", user.user);
+
+        this.socket = socket;
+      });
+
+      // 监听加入聊天室结果
+      socket.on("joinChatroom", (res) => {
+        console.log(123, res);
       });
     },
   },

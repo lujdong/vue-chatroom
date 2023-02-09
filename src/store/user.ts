@@ -6,6 +6,7 @@ export interface UserState {
 }
 
 export const useUserStore = defineStore<"user", UserState>("user", {
+  persist: true,
   state: () => {
     return {
       user: null,
