@@ -27,22 +27,20 @@ export const useSocketStore = defineStore<
   actions: {
     // 初始化socket
     async connectSocket() {
-      const socket = io("http://localhost:3000");
+      const user = useUserStore();
+      const socket = io(`http://localhost:3000/?userId=${user.user?.id}`);
 
       socket.on("connect", async () => {
-        console.log("连接成功");
+        // console.log("连接成功");
 
-        const user = useUserStore();
-
-        console.log("user.user: ", user.user);
-        socket.emit("joinChatroom", user.user);
+        // socket.on("joinChatroom", (res) => {
+        //   console.log(222, res);
+        // });
 
         this.socket = socket;
-      });
-
-      // 监听加入聊天室结果
-      socket.on("joinChatroom", (res) => {
-        console.log(123, res);
+        // socket.on("all", (res) => {
+        //   console.log(123, res);
+        // });
       });
     },
   },

@@ -22,20 +22,53 @@
         </el-icon>
       </div>
       <el-input
+        v-model="content"
         :rows="6"
         type="textarea"
         placeholder="请输入内容"
         resize="none"
       />
       <div class="send-btn">
-        <el-button type="primary">发 送</el-button>
+        <el-button type="primary" @click="sendMessage">发 送</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useSocketStore } from "@/store/socket";
+import { useUserStore } from "@/store/user";
+import type { ChatGroupMap } from "@/types/chat-group";
+import { MoreFilled, Picture, Files } from "@element-plus/icons-vue";
+import { ElIcon, ElInput, ElButton } from "element-plus";
+import { inject, ref } from "vue";
 import chatRecord from "./chat-record.vue";
+
+const props = defineProps<{
+  currentChat: ChatGroupMap | null;
+}>();
+console.log("props: ", props.currentChat);
+
+const content = ref("");
+
+const { socket } = useSocketStore();
+const { user } = useUserStore();
+
+const sendMessage = () => {
+  if (socket?.connected) {
+    socket.emit(
+      "message",
+      {
+        fromId: user?.id,
+        toId: props.currentChat?.groupId,
+        content: content.value,
+      },
+      (res: any) => {
+        console.log("-------=-----=-----", res);
+      }
+    );
+  }
+};
 </script>
 
 <style scoped lang="scss">

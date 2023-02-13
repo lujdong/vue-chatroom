@@ -29,30 +29,6 @@ const recordList = [
       "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
     content: "这是一条消息",
   },
-  {
-    id: 2,
-    user: "张三",
-    type: 2,
-    avatar:
-      "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-    content: "大家好",
-  },
-  {
-    id: 3,
-    user: "李四",
-    type: 2,
-    avatar:
-      "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-    content: "你好",
-  },
-  {
-    id: 1,
-    user: "dong",
-    type: 1,
-    avatar:
-      "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-    content: "你好你好",
-  },
 ];
 </script>
 
