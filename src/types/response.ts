@@ -18,7 +18,7 @@ export interface ResponseDataType<T = any> {
  */
 export interface UserBaseInfo {
   /* 用户ID */
-  id: number;
+  id: string;
   /* 用户名（唯一） */
   username: string;
   /* 昵称 */

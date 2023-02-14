@@ -26,3 +26,12 @@ export const getUserListByUsername = (data: {
     data,
   });
 };
+
+export const getSessionList = <T>(data: {
+  userId: string;
+}): Promise<ResponseDataType<T>> => {
+  return request<ResponseDataType<T>>({
+    url: "/sessions/list",
+    data,
+  });
+};

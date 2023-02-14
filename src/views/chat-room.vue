@@ -18,23 +18,32 @@ import { ref } from "vue";
 import { useUserStore } from "@/store/user";
 import { useSocketStore } from "@/store/socket";
 import type { ChatGroupMap } from "@/types/chat-group";
+import { getSessionList } from "@/api";
+import type { SessionList } from "@/types/sessions";
 
 const activeRoom = ref<ChatGroupMap | null>(null);
 
-const userStore = useUserStore();
+const { user } = useUserStore();
 const socketStore = useSocketStore();
 
 socketStore.connectSocket();
 
-const chatList = ref<any>([]);
+const chatList = ref<SessionList[]>([]);
 
 const roomFlag = ref(false);
 const onRoomChange = (room: any) => {
   console.log(room);
   roomFlag.value = true;
   activeRoom.value = room;
-  console.log(userStore.$state);
 };
+const getChatSessions = async () => {
+  const { data } = await getSessionList<SessionList[]>({
+    userId: user?.id as string,
+  });
+  chatList.value = data as SessionList[];
+  console.log("data: ", data);
+};
+getChatSessions();
 </script>
 
 <style scoped lang="scss">
