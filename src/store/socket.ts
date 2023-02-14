@@ -1,9 +1,11 @@
+import type { UserBaseInfo } from "./../types/response";
 import { useUserStore } from "./user";
 import { io, Socket } from "socket.io-client";
 import { defineStore } from "pinia";
 
 export interface SocketState {
   socket: Socket | null;
+  roomUsers: UserBaseInfo[];
 }
 
 export interface SocketActions {
@@ -19,6 +21,7 @@ export const useSocketStore = defineStore<
   state: () => {
     return {
       socket: null,
+      roomUsers: [],
     };
   },
 
@@ -26,22 +29,38 @@ export const useSocketStore = defineStore<
 
   actions: {
     // 初始化socket
-    async connectSocket() {
-      const user = useUserStore();
-      const socket = io(`http://localhost:3000/?userId=${user.user?.id}`);
+    connectSocket() {
+      const { user } = useUserStore();
+      const socket = io(`http://localhost:3000/?userId=${user?.id}`);
 
-      socket.on("connect", async () => {
-        // console.log("连接成功");
-
-        // socket.on("joinChatroom", (res) => {
-        //   console.log(222, res);
-        // });
-
+      socket.on("connect", () => {
         this.socket = socket;
-        // socket.on("all", (res) => {
-        //   console.log(123, res);
-        // });
       });
+
+      // 初始化socket连接后直接加入默认群组
+      socket.emit(
+        "joinChatroom",
+        {
+          userId: user?.id,
+          groupId: 0,
+        },
+        (res: any) => {
+          // activeRoom.value = res;
+          console.log("=================", res);
+        }
+      );
+
+      // 获取到默认群组已存在的用户
+      socket.emit(
+        "roomUsers",
+        {
+          groupId: 0,
+        },
+        (res: UserBaseInfo[]) => {
+          this.roomUsers = res;
+          console.log("this.roomUsers: ", this.roomUsers);
+        }
+      );
     },
   },
 });
