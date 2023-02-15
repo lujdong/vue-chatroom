@@ -1,7 +1,9 @@
 <template>
   <div class="room-content">
     <div class="room-header">
-      <div class="title">无话不谈聊天室（3）</div>
+      <div class="title">
+        {{ currentRoom?.groupName }}（{{ roomList.length }}）
+      </div>
       <el-icon class="icon">
         <MoreFilled />
       </el-icon>
@@ -41,7 +43,7 @@ import { useUserStore } from "@/store/user";
 import type { ChatGroupMap } from "@/types/chat-group";
 import { MoreFilled, Picture, Files } from "@element-plus/icons-vue";
 import { ElIcon, ElInput, ElButton } from "element-plus";
-import { inject, ref } from "vue";
+import { ref } from "vue";
 import chatRecord from "./chat-record.vue";
 
 const props = defineProps<{
@@ -51,7 +53,7 @@ console.log("props: ", props.currentChat);
 
 const content = ref("");
 
-const { socket } = useSocketStore();
+const { socket, currentRoom, roomList } = useSocketStore();
 const { user } = useUserStore();
 
 const sendMessage = () => {

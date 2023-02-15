@@ -10,10 +10,12 @@ export interface SocketState {
   socket: Socket | null;
   roomUsers: UserBaseInfo[];
   roomList: (ChatGroup & SessionList)[];
+  currentRoom: ChatGroup | null;
 }
 
 export interface SocketActions {
   connectSocket(): void;
+  setCurrentRoom(room: ChatGroup | null): void;
 }
 
 export const useSocketStore = defineStore<
@@ -27,6 +29,7 @@ export const useSocketStore = defineStore<
       socket: null,
       roomUsers: [],
       roomList: [],
+      currentRoom: null,
     };
   },
 
@@ -71,6 +74,10 @@ export const useSocketStore = defineStore<
           console.log("this.roomUsers: ", this.roomUsers);
         }
       );
+    },
+
+    setCurrentRoom(room) {
+      this.currentRoom = room;
     },
   },
 });

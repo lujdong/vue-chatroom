@@ -27,6 +27,7 @@ const activeGroup = ref(false);
 const selectRoomItem = (item: any) => {
   activeGroup.value = true;
   emits("change", item);
+  socketStore.currentRoom = item;
 };
 
 const socketStore = useSocketStore();
