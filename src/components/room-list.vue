@@ -1,8 +1,8 @@
 <template>
   <div class="list-container">
     <room-item
-      :class="[{ active: item.selected }]"
-      v-for="item in props.data"
+      :class="[{ active: activeGroup }]"
+      v-for="item in socketStore.roomList"
       :key="item.id"
       :info="item"
       @select="selectRoomItem(item)"
@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { useSocketStore } from "@/store/socket";
 import { reactive, ref } from "vue";
 import roomItem from "./room-item.vue";
 
@@ -21,14 +22,15 @@ const emits = defineEmits<{
   (event: "change", room: any): void;
 }>();
 
+const activeGroup = ref(false);
+
 const selectRoomItem = (item: any) => {
-  console.log("item: ", item);
-  props.data.forEach((i) => {
-    i.selected = i.id == item.id;
-  });
-  console.log("selectRoomItem");
+  activeGroup.value = true;
   emits("change", item);
 };
+
+const socketStore = useSocketStore();
+console.log(socketStore.roomList);
 </script>
 
 <style scoped lang="scss">

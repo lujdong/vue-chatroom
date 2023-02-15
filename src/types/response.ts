@@ -1,17 +1,12 @@
+import type { ResponseCode } from "@/enums";
+
 /**
  * 响应主体
  */
 export interface ResponseDataType<T = any> {
-  /**
-   * 0：响应成功
-   * 1：响应失败
-   */
-  code: 0 | -1;
-  /* 说明 */
+  code: ResponseCode;
   message?: string;
   data?: T;
-  /* 是否成功 */
-  success: boolean;
 }
 /**
  * 用户基本信息实体

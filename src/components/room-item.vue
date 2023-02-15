@@ -2,33 +2,31 @@
   <div class="room-item" @click="chatAction">
     <div class="side-left">
       <div class="avatar">
-        <user-avatar :src="props.info.avatar"></user-avatar>
+        <user-avatar :src="props.info.cover"></user-avatar>
       </div>
     </div>
     <div class="side-right">
       <div class="line first">
-        <span>{{ props.info.title }}</span>
-        <span class="sub-text">{{ props.info.date }}</span>
+        <span>{{ props.info.groupName }}</span>
+        <span class="sub-text">{{ fromNow(props.info.createTime) }}</span>
       </div>
-      <div class="line sub-text">{{ props.info.content }}</div>
+      <div class="line sub-text">{{ props.info.lastMessage }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import userAvatar from "@/components/user-avatar.vue";
+import type { ChatGroup } from "@/types/chat-group";
+import type { SessionList } from "@/types/sessions";
+import { fromNow } from "@/utils/datetime";
 
 const emit = defineEmits<{
   (event: "select"): void;
 }>();
 
 const props = defineProps<{
-  info: {
-    title: string;
-    date: string;
-    content: string;
-    avatar: string;
-  };
+  info: ChatGroup & SessionList;
 }>();
 
 const chatAction = () => {

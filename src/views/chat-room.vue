@@ -36,14 +36,14 @@ const onRoomChange = (room: any) => {
   roomFlag.value = true;
   activeRoom.value = room;
 };
-const getChatSessions = async () => {
-  const { data } = await getSessionList<SessionList[]>({
-    userId: user?.id as string,
-  });
-  chatList.value = data as SessionList[];
-  console.log("data: ", data);
-};
-getChatSessions();
+// const getChatSessions = async () => {
+//   const { data } = await getSessionList<SessionList[]>({
+//     userId: user?.id as string,
+//   });
+//   chatList.value = data as SessionList[];
+//   console.log("data: ", data);
+// };
+// getChatSessions();
 </script>
 
 <style scoped lang="scss">

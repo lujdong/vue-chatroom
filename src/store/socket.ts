@@ -1,4 +1,7 @@
-import type { UserBaseInfo } from "./../types/response";
+import { ElMessage } from "element-plus";
+import type { SessionList } from "./../types/sessions";
+import type { ChatGroup } from "./../types/chat-group";
+import type { ResponseDataType, UserBaseInfo } from "./../types/response";
 import { useUserStore } from "./user";
 import { io, Socket } from "socket.io-client";
 import { defineStore } from "pinia";
@@ -6,6 +9,7 @@ import { defineStore } from "pinia";
 export interface SocketState {
   socket: Socket | null;
   roomUsers: UserBaseInfo[];
+  roomList: (ChatGroup & SessionList)[];
 }
 
 export interface SocketActions {
@@ -22,6 +26,7 @@ export const useSocketStore = defineStore<
     return {
       socket: null,
       roomUsers: [],
+      roomList: [],
     };
   },
 
@@ -44,7 +49,12 @@ export const useSocketStore = defineStore<
           userId: user?.id,
           groupId: 0,
         },
-        (res: any) => {
+        (res: ResponseDataType<(ChatGroup & SessionList)[]>) => {
+          if (res.code === 200) {
+            this.roomList = res.data || [];
+          } else {
+            ElMessage.warning(res.message);
+          }
           // activeRoom.value = res;
           console.log("=================", res);
         }
