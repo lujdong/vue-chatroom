@@ -1,21 +1,23 @@
 <template>
-  <div class="record-list">
-    <div
-      :class="['record-item', { 'right-user': item.fromId === user?.id }]"
-      v-for="item in messageList"
-      :key="item.id"
-    >
-      <div class="record-info">
-        <div class="avatar">
-          <user-avatar :src="'item.avatar'"></user-avatar>
-        </div>
-        <div class="text-info">
-          <div class="name sub-text">{{ "item.user" }}</div>
-          <div class="time text-box">{{ item.content }}</div>
+  <el-scrollbar height="350" ref="scrollBox">
+    <div class="record-list">
+      <div
+        :class="['record-item', { 'right-user': item.fromId === user?.id }]"
+        v-for="item in messageList"
+        :key="item.id"
+      >
+        <div class="record-info">
+          <div class="avatar">
+            <user-avatar :src="'item.avatar'"></user-avatar>
+          </div>
+          <div class="text-info">
+            <div class="name sub-text">{{ "item.user" }}</div>
+            <div class="time text-box">{{ item.content }}</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">

@@ -8,7 +8,7 @@
         <MoreFilled />
       </el-icon>
     </div>
-    <div class="room-content">
+    <div class="chat-content">
       <chat-record></chat-record>
     </div>
     <div class="room-footer">
@@ -86,10 +86,10 @@ const sendMessage = () => {
       cursor: pointer;
     }
   }
-  .room-content {
+  .chat-content {
     flex: 1;
-    border-bottom: 1px solid #eee;
     background: #f9f9f9;
+    border-bottom: 1px solid #eee;
   }
 
   .room-footer {

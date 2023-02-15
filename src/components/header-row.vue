@@ -56,6 +56,7 @@ const handleLogout = () => {
 .sidebar {
   height: 60px;
   background: gray;
+  flex-shrink: 0;
   &-content {
     position: relative;
     @extend .flex;
