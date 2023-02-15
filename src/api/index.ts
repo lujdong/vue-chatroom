@@ -35,3 +35,12 @@ export const getSessionList = <T>(data: {
     data,
   });
 };
+
+export const getMessageList = <T>(data: {
+  sessionId: string;
+}): Promise<ResponseDataType<T>> => {
+  return request<ResponseDataType<T>>({
+    url: "/sessions/messageList",
+    data,
+  });
+};

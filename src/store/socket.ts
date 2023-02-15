@@ -5,6 +5,7 @@ import type { ResponseDataType, UserBaseInfo } from "./../types/response";
 import { useUserStore } from "./user";
 import { io, Socket } from "socket.io-client";
 import { defineStore } from "pinia";
+import { getMessageList } from "@/api";
 
 export interface SocketState {
   socket: Socket | null;
@@ -16,7 +17,7 @@ export interface SocketState {
 
 export interface SocketActions {
   connectSocket(): void;
-  setCurrentRoom(room: ChatGroup | null): void;
+  getHistoryMessage(): void;
 }
 
 export const useSocketStore = defineStore<
@@ -82,8 +83,12 @@ export const useSocketStore = defineStore<
       });
     },
 
-    setCurrentRoom(room) {
-      this.currentRoom = room;
+    async getHistoryMessage() {
+      const { data } = await getMessageList<MessageList[]>({
+        sessionId: this.currentRoom?.id as string,
+      });
+      console.log("data: ", data);
+      this.messageList = [...(data as MessageList[]), ...this.messageList];
     },
   },
 });

@@ -3,7 +3,7 @@
     <div class="record-list">
       <div
         :class="['record-item', { 'right-user': item.fromId === user?.id }]"
-        v-for="item in messageList"
+        v-for="item in socketStore.messageList"
         :key="item.id"
       >
         <div class="record-info">
@@ -25,8 +25,9 @@ import userAvatar from "@/components/user-avatar.vue";
 import { useSocketStore } from "@/store/socket";
 import { useUserStore } from "@/store/user";
 
-const { messageList } = useSocketStore();
+const socketStore = useSocketStore();
 const { user } = useUserStore();
+socketStore.getHistoryMessage();
 </script>
 
 <style scoped lang="scss">
