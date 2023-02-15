@@ -1,6 +1,6 @@
 import { ElMessage } from "element-plus";
 import type { SessionList } from "./../types/sessions";
-import type { ChatGroup } from "./../types/chat-group";
+import type { ChatGroup, MessageList } from "./../types/chat-group";
 import type { ResponseDataType, UserBaseInfo } from "./../types/response";
 import { useUserStore } from "./user";
 import { io, Socket } from "socket.io-client";
@@ -11,6 +11,7 @@ export interface SocketState {
   roomUsers: UserBaseInfo[];
   roomList: (ChatGroup & SessionList)[];
   currentRoom: ChatGroup | null;
+  messageList: MessageList[];
 }
 
 export interface SocketActions {
@@ -30,6 +31,7 @@ export const useSocketStore = defineStore<
       roomUsers: [],
       roomList: [],
       currentRoom: null,
+      messageList: [],
     };
   },
 
@@ -74,6 +76,10 @@ export const useSocketStore = defineStore<
           console.log("this.roomUsers: ", this.roomUsers);
         }
       );
+
+      socket.on("message", (res) => {
+        this.messageList.push(res);
+      });
     },
 
     setCurrentRoom(room) {

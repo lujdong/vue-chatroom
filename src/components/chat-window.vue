@@ -53,22 +53,18 @@ console.log("props: ", props.currentChat);
 
 const content = ref("");
 
-const { socket, currentRoom, roomList } = useSocketStore();
+const { socket, currentRoom, roomList, messageList } = useSocketStore();
 const { user } = useUserStore();
 
 const sendMessage = () => {
+  if (!content.value) return;
   if (socket?.connected) {
-    socket.emit(
-      "message",
-      {
-        fromId: user?.id,
-        toId: props.currentChat?.groupId,
-        content: content.value,
-      },
-      (res: any) => {
-        console.log("-------=-----=-----", res);
-      }
-    );
+    socket.emit("message", {
+      fromId: user?.id,
+      toId: currentRoom?.id,
+      content: content.value,
+    });
+    content.value = "";
   }
 };
 </script>

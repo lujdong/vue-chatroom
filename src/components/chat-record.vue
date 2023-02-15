@@ -1,16 +1,16 @@
 <template>
   <div class="record-list">
     <div
-      :class="['record-item', { 'right-user': item.type === 1 }]"
-      v-for="item in recordList"
+      :class="['record-item', { 'right-user': item.fromId === user?.id }]"
+      v-for="item in messageList"
       :key="item.id"
     >
       <div class="record-info">
         <div class="avatar">
-          <user-avatar :src="item.avatar"></user-avatar>
+          <user-avatar :src="'item.avatar'"></user-avatar>
         </div>
         <div class="text-info">
-          <div class="name sub-text">{{ item.user }}</div>
+          <div class="name sub-text">{{ "item.user" }}</div>
           <div class="time text-box">{{ item.content }}</div>
         </div>
       </div>
@@ -20,16 +20,11 @@
 
 <script setup lang="ts">
 import userAvatar from "@/components/user-avatar.vue";
-const recordList = [
-  {
-    id: 1,
-    user: "dong",
-    type: 1,
-    avatar:
-      "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-    content: "这是一条消息",
-  },
-];
+import { useSocketStore } from "@/store/socket";
+import { useUserStore } from "@/store/user";
+
+const { messageList } = useSocketStore();
+const { user } = useUserStore();
 </script>
 
 <style scoped lang="scss">

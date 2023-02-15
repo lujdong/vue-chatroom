@@ -1,3 +1,5 @@
+import type { MessageType } from "@/enums";
+
 export interface ChatGroupMap {
   id: number;
 
@@ -14,6 +16,20 @@ export interface ChatGroup {
   groupName: string;
 
   cover: string;
+
+  createTime: string;
+}
+
+export interface MessageList {
+  id: string;
+
+  fromId: string;
+
+  toId: string;
+
+  content: string;
+
+  type: MessageType;
 
   createTime: string;
 }
