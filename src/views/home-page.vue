@@ -50,12 +50,7 @@ const loginSuccess = (data?: UserBaseInfo) => {
   if (data) {
     userStore.user = data;
   }
-  router.replace({
-    path: "/chat",
-    query: {
-      id: data?.id,
-    },
-  });
+  router.replace("/chat");
 };
 </script>
 

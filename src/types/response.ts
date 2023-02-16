@@ -40,4 +40,5 @@ export interface UserBaseInfo {
   createTime: string;
   /* 备注 */
   remark: string;
+  token: string;
 }

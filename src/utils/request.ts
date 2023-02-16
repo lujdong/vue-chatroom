@@ -1,3 +1,4 @@
+import { useUserStore } from "@/store/user";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 
@@ -7,8 +8,11 @@ const instance = axios.create({
   baseURL: "/api",
 });
 
+const useStore = useUserStore();
+
 instance.interceptors.request.use(
   function (config) {
+    config.headers.token = useStore.user?.token;
     return config;
   },
   function (error) {
@@ -18,6 +22,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    console.log("response: ", response);
     if (response.data.code === 200) {
       return response.data;
     }

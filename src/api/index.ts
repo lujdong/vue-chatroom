@@ -4,7 +4,7 @@ import request from "@/utils/request";
 
 export const userRegister = (data: UserRegisterParams) => {
   return request<ResponseDataType>({
-    url: "/user/register",
+    url: "/auth/register",
     data,
   });
 };
@@ -13,7 +13,7 @@ export const userLogin = <T>(
   data: UserLoginParams
 ): Promise<ResponseDataType<T>> => {
   return request<ResponseDataType<T>>({
-    url: "/user/login",
+    url: "/auth/login",
     data,
   });
 };
