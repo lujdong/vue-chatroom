@@ -2,7 +2,9 @@
   <div class="room-content">
     <div class="room-header">
       <div class="title">
-        {{ currentRoom?.groupName }}（{{ roomList.length }}）
+        {{ socketStore.currentRoom?.groupName }}（{{
+          socketStore.roomUsers.length
+        }}）
       </div>
       <el-icon class="icon">
         <MoreFilled />
@@ -53,15 +55,15 @@ console.log("props: ", props.currentChat);
 
 const content = ref("");
 
-const { socket, currentRoom, roomList, messageList } = useSocketStore();
+const socketStore = useSocketStore();
 const { user } = useUserStore();
 
 const sendMessage = () => {
   if (!content.value) return;
-  if (socket?.connected) {
-    socket.emit("message", {
+  if (socketStore.socket?.connected) {
+    socketStore.socket.emit("message", {
       fromId: user?.id,
-      toId: currentRoom?.id,
+      toId: socketStore.currentRoom?.id,
       content: content.value,
     });
     content.value = "";
