@@ -8,10 +8,12 @@
       >
         <div class="record-info">
           <div class="avatar">
-            <user-avatar :src="'item.avatar'"></user-avatar>
+            <user-avatar :src="item.avatar"></user-avatar>
           </div>
           <div class="text-info">
-            <div class="name sub-text">{{ "item.user" }}</div>
+            <div class="name sub-text">
+              {{ item.nickname || item.username }}
+            </div>
             <div class="time text-box">{{ item.content }}</div>
           </div>
         </div>
@@ -36,9 +38,7 @@ socketStore.getHistoryMessage();
   font-size: 12px;
   color: #aaa;
 }
-.right-user {
-  direction: rtl;
-}
+
 .record-list {
   display: flex;
   flex-direction: column;
@@ -63,6 +63,15 @@ socketStore.getHistoryMessage();
         }
       }
     }
+  }
+}
+
+.right-user {
+  direction: rtl;
+
+  .text-box {
+    background: #409eff !important;
+    color: white;
   }
 }
 </style>

@@ -7,12 +7,13 @@ import { io, Socket } from "socket.io-client";
 import { defineStore } from "pinia";
 import { getMessageList } from "@/api";
 
+type MessageInfo = MessageList & UserBaseInfo;
 export interface SocketState {
   socket: Socket | null;
   roomUsers: UserBaseInfo[];
   roomList: (ChatGroup & SessionList)[];
   currentRoom: ChatGroup | null;
-  messageList: MessageList[];
+  messageList: MessageInfo[];
 }
 
 export interface SocketActions {
@@ -84,11 +85,11 @@ export const useSocketStore = defineStore<
     },
 
     async getHistoryMessage() {
-      const { data } = await getMessageList<MessageList[]>({
+      const { data } = await getMessageList<MessageInfo[]>({
         sessionId: this.currentRoom?.id as string,
       });
       console.log("data: ", data);
-      this.messageList = [...(data as MessageList[]), ...this.messageList];
+      this.messageList = [...(data as MessageInfo[]), ...this.messageList];
     },
   },
 });
