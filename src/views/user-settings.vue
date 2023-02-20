@@ -6,7 +6,6 @@
         style="width: 180px; height: 180px"
         :src="userForm.avatar"
       />
-      <img :src="userForm.avatar" alt="" />
       <el-upload
         ref="upload"
         class="upload-btn"
@@ -161,12 +160,11 @@ const userForm = ref({
 });
 
 const uploadAction = async (options: UploadRequestOptions) => {
-  console.log("options: ", options);
   const formData = new FormData();
   formData.append("userId", userStore.user?.id as string);
   formData.append("avatar", options.file);
-  const data = await updateUserAvatar(formData);
-  console.log("data: ", data);
+  await updateUserAvatar(formData);
+  getUserInfo();
 };
 </script>
 
