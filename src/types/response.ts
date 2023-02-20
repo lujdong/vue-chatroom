@@ -31,7 +31,7 @@ export interface UserBaseInfo {
   /* 手机号 */
   phone: string;
   /* 生日 */
-  birthday: Date;
+  birthday: string;
   /* 头像 */
   avatar: string;
   /* 个人介绍 */

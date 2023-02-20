@@ -21,3 +21,12 @@ export enum ResponseCode {
   SUCCESS = 200,
   ERROR = 500,
 }
+
+/**
+ * 性别
+ */
+export enum SexType {
+  SECRECY,
+  BOY,
+  GIRL,
+}

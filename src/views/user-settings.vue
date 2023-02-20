@@ -4,15 +4,15 @@
       <el-image
         class="img-wrap"
         style="width: 180px; height: 180px"
-        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        :src="userForm.avatar"
       />
+      <img :src="userForm.avatar" alt="" />
       <el-upload
         ref="upload"
         class="upload-btn"
-        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
         :limit="1"
-        :auto-upload="false"
         :show-file-list="false"
+        :http-request="uploadAction"
       >
         <template #trigger>
           <el-button type="primary">选择头像</el-button>
@@ -102,6 +102,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { updateUserAvatar, getUserInfoById } from "@/api";
+import { useUserStore } from "@/store/user";
+import type { ResponseDataType, UserBaseInfo } from "@/types/response";
+import { SexType } from "@/enums";
+import type { UploadRequestOptions } from "element-plus";
 
 const SexList = [
   {
@@ -118,6 +123,18 @@ const SexList = [
   },
 ];
 
+const userStore = useUserStore();
+
+const getUserInfo = async () => {
+  const { data } = (await getUserInfoById(
+    userStore.user?.id as string
+  )) as ResponseDataType<UserBaseInfo>;
+  if (data) {
+    userForm.value = data;
+  }
+};
+getUserInfo();
+
 const sexText = computed(() =>
   userForm.value.sex === 1 ? "男" : userForm.value.sex === 2 ? "女" : "保密"
 );
@@ -133,14 +150,24 @@ const handleSave = () => {
 };
 
 const userForm = ref({
-  username: "dong",
-  nickname: "小东",
-  sex: 0,
-  age: 26,
-  phone: 18514567897,
-  birthday: "1998/9/26",
+  username: "",
+  nickname: "",
+  phone: "",
+  sex: SexType.SECRECY,
+  age: 0,
+  avatar: "",
+  birthday: "",
   password: "",
 });
+
+const uploadAction = async (options: UploadRequestOptions) => {
+  console.log("options: ", options);
+  const formData = new FormData();
+  formData.append("userId", userStore.user?.id as string);
+  formData.append("avatar", options.file);
+  const data = await updateUserAvatar(formData);
+  console.log("data: ", data);
+};
 </script>
 
 <style scoped lang="scss">

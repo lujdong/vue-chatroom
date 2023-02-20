@@ -87,3 +87,14 @@ export const getUserInfoById = (id: string): Promise<ResponseDataType> => {
     method: "get",
   });
 };
+
+export const updateUserAvatar = (data: FormData): Promise<ResponseDataType> => {
+  return request({
+    url: "/user/avatar",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    responseType: "arraybuffer",
+  });
+};
