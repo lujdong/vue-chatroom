@@ -6,7 +6,7 @@
           >添加好友</el-button
         >
       </div>
-      <div class="group-row">
+      <div class="group-row" @click="handleAddGroup">
         <el-icon> <Plus /> </el-icon>新建分组
       </div>
       <el-collapse>
@@ -83,6 +83,7 @@
       <empty-panel v-else></empty-panel>
     </div>
     <add-friend :show="showAddFriend" @close="closeFriendsModal"></add-friend>
+    <add-group :show="showAddGroup" @close="closeGroupModal"></add-group>
   </div>
 </template>
 
@@ -90,6 +91,7 @@
 import emptyPanel from "@/components/empty-panel.vue";
 import userAvatar from "@/components/user-avatar.vue";
 import addFriend from "@/components/add-friend.vue";
+import addGroup from "@/components/add-group.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { ref } from "vue";
 
@@ -129,6 +131,14 @@ const handleAddFriend = () => {
   showAddFriend.value = true;
 };
 const closeFriendsModal = () => {
+  showAddFriend.value = false;
+};
+
+const showAddGroup = ref(false);
+const handleAddGroup = () => {
+  showAddGroup.value = true;
+};
+const closeGroupModal = () => {
   showAddFriend.value = false;
 };
 </script>
