@@ -90,7 +90,9 @@
         </el-form-item>
         <el-form-item>
           <div class="action-btn">
-            <el-button @click="handleEdit">修改</el-button>
+            <el-button @click="handleEdit">{{
+              editFlag ? "取消" : "修改"
+            }}</el-button>
             <el-button type="primary" @click="handleSave">保存</el-button>
           </div>
         </el-form-item>
@@ -101,7 +103,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { updateUserAvatar, getUserInfoById } from "@/api";
+import { updateUserAvatar, getUserInfoById, updateUserInfo } from "@/api";
 import { useUserStore } from "@/store/user";
 import type { ResponseDataType, UserBaseInfo } from "@/types/response";
 import { SexType } from "@/enums";
@@ -135,29 +137,43 @@ const getUserInfo = async () => {
 getUserInfo();
 
 const sexText = computed(() =>
-  userForm.value.sex === 1 ? "男" : userForm.value.sex === 2 ? "女" : "保密"
+  userForm.value?.sex === SexType.BOY
+    ? "男"
+    : userForm.value?.sex === SexType.GIRL
+    ? "女"
+    : "保密"
 );
 
 const editFlag = ref(false);
 
 const handleEdit = () => {
-  editFlag.value = true;
+  editFlag.value = !editFlag.value;
 };
 
-const handleSave = () => {
+const handleSave = async () => {
+  // TODO: 用户不存在跳转登录
+  if (userForm.value) {
+    const data = await updateUserInfo(userForm.value);
+    console.log("data: ", data);
+  }
+
   editFlag.value = false;
 };
 
-const userForm = ref({
-  username: "",
-  nickname: "",
-  phone: "",
-  sex: SexType.SECRECY,
-  age: 0,
-  avatar: "",
-  birthday: "",
-  password: "",
-});
+const userForm = ref(
+  userStore.user
+    ? userStore.user
+    : {
+        username: "",
+        nickname: "",
+        phone: "",
+        sex: SexType.SECRECY,
+        age: 0,
+        avatar: "",
+        birthday: "",
+        password: "",
+      }
+);
 
 const uploadAction = async (options: UploadRequestOptions) => {
   const formData = new FormData();

@@ -1,4 +1,4 @@
-import type { ResponseDataType } from "./../types/response";
+import type { ResponseDataType, UserBaseInfo } from "./../types/response";
 import type { UserLoginParams, UserRegisterParams } from "./types";
 import request from "@/utils/request";
 import type { AddFriendDto, AddFriendGroupDto } from "@/types/friends";
@@ -91,6 +91,15 @@ export const getUserInfoById = (id: string): Promise<ResponseDataType> => {
 export const updateUserAvatar = (data: FormData): Promise<ResponseDataType> => {
   return request({
     url: "/user/avatar",
+    data,
+  });
+};
+
+export const updateUserInfo = (
+  data: Partial<UserBaseInfo>
+): Promise<ResponseDataType> => {
+  return request({
+    url: "/user/update",
     data,
   });
 };
