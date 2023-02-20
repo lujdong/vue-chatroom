@@ -9,12 +9,13 @@
       <div class="group-row" @click="handleAddGroup">
         <el-icon> <Plus /> </el-icon>新建分组
       </div>
-      <el-collapse>
+      <el-collapse v-model="activeGroup" @change="onGroupActive" accordion>
         <el-collapse-item
           class="group-item"
           v-for="item in groupList"
           :key="item.id"
-          :title="item.title"
+          :name="item.id"
+          :title="item.groupName"
         >
           <div class="friend-list">
             <div
@@ -24,7 +25,7 @@
               @click="onSelectFriend(friend)"
             >
               <user-avatar :src="friend.avatar"></user-avatar>
-              <span>{{ friend.nickname }}</span>
+              <span>{{ friend.nickname || friend.username }}</span>
             </div>
           </div>
         </el-collapse-item>
@@ -34,10 +35,15 @@
       <div v-if="currentSelectFriend?.id" class="friend-panel">
         <div class="friend-box">
           <div class="friend-header">
-            <user-avatar class="avatar"></user-avatar>
+            <user-avatar
+              class="avatar"
+              :src="currentSelectFriend.avatar"
+            ></user-avatar>
             <div class="info-column">
-              <div class="info-line">用户名：{{ "zs123" }}</div>
               <div class="info-line">
+                用户名：{{ currentSelectFriend.username }}
+              </div>
+              <div class="info-line" v-if="currentSelectFriend.nickname">
                 昵称：{{ currentSelectFriend.nickname }}
               </div>
             </div>
@@ -94,35 +100,63 @@ import addFriend from "@/components/add-friend.vue";
 import addGroup from "@/components/add-group.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { ref } from "vue";
+import { getFriendsGroupList, getFriendsList, getUserInfoById } from "@/api";
+import type { FriendsGroupResponse } from "@/types/friends";
+import { useUserStore } from "@/store/user";
+import type { ResponseDataType, UserBaseInfo } from "@/types/response";
 
-const groupList = ref([
+const userStore = useUserStore();
+
+type FriendInfo = UserBaseInfo & { selected: boolean };
+type GroupFriendsList = FriendsGroupResponse & {
+  friends: FriendInfo[];
+};
+
+const groupList = ref<GroupFriendsList[]>([
   {
-    id: 1,
-    title: "我的好友",
-    friends: [
-      {
-        id: 1,
-        nickname: "张三",
-        selected: false,
-        avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxA",
-      },
-      {
-        id: 2,
-        nickname: "李四",
-        selected: false,
-        avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxA",
-      },
-    ],
+    id: "0",
+    groupName: "我的好友",
+    userId: userStore.user?.id as string,
+    createTime: "",
+    friends: [],
   },
 ]);
+const activeGroup = ref<string>();
 
-const currentSelectFriend = ref<any>(null);
-const onSelectFriend = (friend: any) => {
+// const friendInfo = ref<UserBaseInfo>();
+
+const currentSelectFriend = ref<UserBaseInfo>();
+const onSelectFriend = async (friend: UserBaseInfo) => {
   currentSelectFriend.value = friend;
   groupList.value.forEach((item) => {
     item.friends.forEach((friendItem) => {
       friendItem.selected = friendItem.id === friend.id;
     });
+  });
+  // const { data } = (await getUserInfoById(
+  //   friend.id
+  // )) as ResponseDataType<UserBaseInfo>;
+  // console.log("data: ", data);
+  // friendInfo.value = data;
+};
+
+const getFriendsGroupListData = async () => {
+  const { data } = (await getFriendsGroupList({
+    userId: userStore.user?.id as string,
+  })) as ResponseDataType<GroupFriendsList[]>;
+  if (data) {
+    groupList.value = [...groupList.value, ...data];
+  }
+};
+getFriendsGroupListData();
+
+const onGroupActive = async (activeId: string) => {
+  const { data } = (await getFriendsList({
+    userId: userStore.user?.id as string,
+    groupId: activeId,
+  })) as ResponseDataType<FriendInfo[]>;
+  groupList.value.forEach((group) => {
+    group.friends = data || [];
   });
 };
 

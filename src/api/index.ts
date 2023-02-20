@@ -1,7 +1,7 @@
 import type { ResponseDataType } from "./../types/response";
 import type { UserLoginParams, UserRegisterParams } from "./types";
 import request from "@/utils/request";
-import type { AddFriendGroupDto } from "@/types/friends";
+import type { AddFriendDto, AddFriendGroupDto } from "@/types/friends";
 
 export const userRegister = (data: UserRegisterParams) => {
   return request<ResponseDataType>({
@@ -21,9 +21,9 @@ export const userLogin = <T>(
 
 export const getUserListByUsername = (data: {
   username: string;
-}): ResponseType => {
+}): Promise<ResponseDataType> => {
   return request({
-    url: "/user/find-all",
+    url: "/user/list",
     data,
   });
 };
@@ -52,5 +52,38 @@ export const createFriendGroup = (
   return request({
     url: "/friends/add-group",
     data,
+  });
+};
+
+export const getFriendsGroupList = (data: {
+  userId: string;
+}): Promise<ResponseDataType> => {
+  return request({
+    url: "/friends/group-list",
+    data,
+  });
+};
+
+export const addFriend = (data: AddFriendDto): Promise<ResponseDataType> => {
+  return request({
+    url: "/friends/add",
+    data,
+  });
+};
+
+export const getFriendsList = (data: {
+  userId: string;
+  groupId: string;
+}): Promise<ResponseDataType> => {
+  return request({
+    url: "/friends/list",
+    data,
+  });
+};
+
+export const getUserInfoById = (id: string): Promise<ResponseDataType> => {
+  return request({
+    url: "/user/" + id,
+    method: "get",
   });
 };

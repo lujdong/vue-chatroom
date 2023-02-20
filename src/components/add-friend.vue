@@ -35,7 +35,12 @@
                 <span class="username">{{ item.username }}</span>
               </div>
             </div>
-            <el-button circle :icon="Plus" type="primary"></el-button>
+            <el-button
+              circle
+              :icon="Plus"
+              type="primary"
+              @click="addFriendAction(item)"
+            ></el-button>
           </div>
         </template>
         <span v-else class="empty-text">未查询到数据</span>
@@ -48,8 +53,12 @@
 import { ref, watch } from "vue";
 import userAvatar from "./user-avatar.vue";
 import { Plus } from "@element-plus/icons-vue";
-import { getUserListByUsername } from "@/api";
-import type { UserBaseInfo } from "@/types/response";
+import { getUserListByUsername, addFriend } from "@/api";
+import type { ResponseDataType, UserBaseInfo } from "@/types/response";
+import { useUserStore } from "@/store/user";
+import { ElMessage } from "element-plus";
+
+const userStore = useUserStore();
 
 const props = defineProps<{
   show: boolean;
@@ -75,10 +84,23 @@ const username = ref("");
 const userlist = ref<UserBaseInfo[]>([]);
 const dataFlag = ref(true);
 const onUsernameChange = async () => {
-  const { data } = await getUserListByUsername({ username: username.value });
-  userlist.value = data;
+  const { data } = (await getUserListByUsername({
+    username: username.value,
+  })) as ResponseDataType<UserBaseInfo[]>;
+  if (data) {
+    userlist.value = data;
+  }
   dataFlag.value = !!userlist.value.length;
 };
+
+const addFriendAction = async (friend: UserBaseInfo) => {
+  const { message } = (await addFriend({
+    userId: userStore.user?.id as string,
+    friendId: friend.id,
+  })) as ResponseDataType<UserBaseInfo[]>;
+  ElMessage.success(message);
+};
+
 const onClose = () => {
   dialogVisible.value = false;
   emit("close");
